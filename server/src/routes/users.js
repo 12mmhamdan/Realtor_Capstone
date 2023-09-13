@@ -35,7 +35,7 @@ router.post("/login", async (req, res) => {
         return res.json({ message: "Username or Password is incorrect."})
     }
 
-    const token = jwt.sign({id: user._id}, "secretsecret");
+    const token = jwt.sign({id: user._id}, "secretkey");
     res.json({ token, userID: user._id });
 
 });
@@ -47,7 +47,7 @@ export { router as userRouter };
 export const verifyToken = (req, res, next) => {
     const token = req.headers.authorization;
     if (token) {
-        jwt.verify(token, "secretsecret", (err) => {
+        jwt.verify(token, "secretkey", (err) => {
             if (err) return res.sendStatus(403);
             next();
         })
