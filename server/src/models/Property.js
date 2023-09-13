@@ -21,33 +21,28 @@ const propertySchema = new mongoose.Schema({
   },
   latitude: {
     type: Number,
-    required: true,
+    required: false,
   },
   longitude: {
     type: Number,
-    required: true,
+    required: false,
   },
   radius: {
     type: Number,
-    required: true,
+    required: false,
   },
   propertyType: {
     type: String,
-    // Define allowed property types or an enum if needed
   },
   bedrooms: {
     type: Number,
-    required: true,
+    required: false,
   },
   bathrooms: {
     type: Number,
-    required: true,
+    required: false,
   },
-  // Add other property details as needed
 });
 
-// Create a Property model from the schema
-const Property = mongoose.model('Property', propertySchema);
+export const Property = mongoose.model('Property', propertySchema);
 
-// Export the Property model
-module.exports = Property;
