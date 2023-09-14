@@ -40,27 +40,37 @@ router.post("/login", async (req, res) => {
         return res.json({ message: "Username or Password is incorrect."})
     }
 
-    const token = jwt.sign({id: user._id}, SECRET_KEY);
+    const token = jwt.sign({ id: user._id }, SECRET_KEY, { expiresIn: '1h' });
     res.json({ token, userID: user._id });
 
 });
 
 export const verifyToken = (req, res, next) => {
     const token = req.headers.authorization;
+    console.log("Received token:", token);
+
     if (token) {
-        jwt.verify(token, SECRET_KEY, (err) => {
-            if (err) return res.sendStatus(403);
+        jwt.verify(token.replace("Bearer ", ""), SECRET_KEY, (err, decodedToken) => {
+            if (err) {
+                console.error("Token verification failed:", err);
+                return res.sendStatus(403);
+            }
+            
+            // If verification is successful, you can log the decoded token for debugging
+            console.log("Decoded token:", decodedToken);
             next();
-        })
+        });
     } else {
+        console.error("No token provided.");
         res.sendStatus(401);
     }
 };
 
 
 
+
 router.put("/users/:id", verifyToken, async (req, res) => {
-    const id  = req.params.id;
+    const id = req.params.id;
     const { username, password, newPassword } = req.body;
 
     try {
@@ -86,15 +96,16 @@ router.put("/users/:id", verifyToken, async (req, res) => {
                 return res.status(401).json({ message: "Current password is incorrect." });
             }
 
-            // Hash and update the new password if provided
+            // If newPassword is provided, hash and update the new password
             if (newPassword) {
                 const hashedNewPassword = await bcrypt.hash(newPassword, 10);
                 user.password = hashedNewPassword;
             }
         }
 
-        // If the user wants to update the username, check if it's not already taken
+        // If a new username is provided and it's different from the current username, update it
         if (username && username !== user.username) {
+            // Check if the new username is already taken
             const existingUser = await UserModel.findOne({ username });
 
             if (existingUser) {
@@ -114,9 +125,8 @@ router.put("/users/:id", verifyToken, async (req, res) => {
     }
 });
 
-// Import necessary modules and setup your router and UserModel here...
 
-// Define a GET route to retrieve all users
+//This will get all the users
 router.get("/users", async (req, res) => {
     try {
         // Use the UserModel to fetch all users from the database
@@ -129,6 +139,27 @@ router.get("/users", async (req, res) => {
         res.status(500).json({ message: "Internal server error." });
     }
 });
+
+// Create a GET route to retrieve a user by userID
+router.get("/users/:id", async (req, res) => {
+    try {
+        const userID = req.params.id; // Get the userID from the request parameters
+
+        // Use the UserModel to find the user by their userID
+        const user = await UserModel.findById(userID);
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found." });
+        }
+
+        // Return the user as a JSON response
+        res.json(user);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error." });
+    }
+});
+
 
 router.post("/check-username", async (req, res) => {
     try {

@@ -34,7 +34,7 @@ const EditUser = () => {
 
     const onFinish = async (values) => {
         try {
-            const result = await axios.put(`http://localhost:3001/auth/user/${user._id}`, {
+            const result = await axios.put(`http://localhost:3001/auth/users/${user._id}`, {
                 username: values.username,
                 password: values.password,
                 newPassword: values.newPassword, // If you want to update the password
@@ -43,7 +43,7 @@ const EditUser = () => {
                     Authorization: `Bearer ${cookies.access_token}`,
                 },
             });
-
+    
             if (result.data.message) {
                 setMessageText(result.data.message);
             } else {
@@ -51,9 +51,15 @@ const EditUser = () => {
                 navigate("/");
             }
         } catch (error) {
-            console.error(error);
+            if (error.response && error.response.status === 400 && error.response.data.message === "Username is already taken.") {
+                // Handle the case where the new username is already taken
+                setMessageText("Username is already taken. Please choose a different username.");
+            } else {
+                console.error(error);
+            }
         }
     };
+    
 
     return (
         <Form
@@ -78,7 +84,7 @@ const EditUser = () => {
                     },
                 ]}
             >
-                <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Change Username or enter your current Username (Required)" />
             </Form.Item>
             <Form.Item
                 name="password"
@@ -92,7 +98,7 @@ const EditUser = () => {
                 <Input
                     prefix={<LockOutlined className="site-form-item-icon" />}
                     type="password"
-                    placeholder="Current Password"
+                    placeholder="Current Password (Required)"
                 />
             </Form.Item>
             <Form.Item
