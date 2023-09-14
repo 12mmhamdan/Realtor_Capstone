@@ -23,7 +23,7 @@ const Login = () => {
                 message.error("User does not exist. Please check your username.");
             } else if (result.data.message === "Username or Password is incorrect.") {
                 // Handle the case when the password is incorrect
-                message.error("Username or Password is incorrect. Please try again.");
+                message.error("Password is incorrect. Please try again.");
             } else {
                 // Login successful
                 setCookies("access_token", result.data.token);

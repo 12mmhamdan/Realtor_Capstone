@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { HomeOutlined,  UserOutlined, SearchOutlined} from '@ant-design/icons';
+import { HomeOutlined,  UserOutlined, SearchOutlined, TeamOutlined} from '@ant-design/icons';
 import { Menu } from 'antd';
 
 
@@ -15,6 +15,7 @@ export const Navbar = () => {
         navigate("/");
     };
 
+    const loggedIn = cookies.access_token
 
     const items = [
         {
@@ -27,7 +28,7 @@ export const Navbar = () => {
         {
             label: (
                 <>
-                  {!cookies.access_token ? (
+                  {!loggedIn ? (
                     <Link to="/Login">Login/Register</Link>
                   ) : (
                     <Link onClick={logout}> Logout </Link>
@@ -44,7 +45,17 @@ export const Navbar = () => {
             key: 'propertysearch',
             icon: <SearchOutlined /> 
           },
+
+          
+            
       ];
+      if (loggedIn) {
+        items.push({
+            label: <Link to="/EditUser">Edit User</Link>,
+            key: 'edituser',
+            icon: <TeamOutlined />,
+        });
+    }
 
   
     const [current, setCurrent] = useState('mail');

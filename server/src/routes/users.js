@@ -59,8 +59,8 @@ export const verifyToken = (req, res, next) => {
 
 
 
-router.put("/user/:id", verifyToken, async (req, res) => {
-    const { id } = req.params;
+router.put("/users/:id", verifyToken, async (req, res) => {
+    const id  = req.params.id;
     const { username, password, newPassword } = req.body;
 
     try {
@@ -86,9 +86,11 @@ router.put("/user/:id", verifyToken, async (req, res) => {
                 return res.status(401).json({ message: "Current password is incorrect." });
             }
 
-            // Hash and update the new password
-            const hashedNewPassword = await bcrypt.hash(newPassword, 10);
-            user.password = hashedNewPassword;
+            // Hash and update the new password if provided
+            if (newPassword) {
+                const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+                user.password = hashedNewPassword;
+            }
         }
 
         // If the user wants to update the username, check if it's not already taken
@@ -111,6 +113,44 @@ router.put("/user/:id", verifyToken, async (req, res) => {
         res.status(500).json({ message: "Internal server error." });
     }
 });
+
+// Import necessary modules and setup your router and UserModel here...
+
+// Define a GET route to retrieve all users
+router.get("/users", async (req, res) => {
+    try {
+        // Use the UserModel to fetch all users from the database
+        const users = await UserModel.find();
+
+        // Return the users as JSON response
+        res.json(users);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error." });
+    }
+});
+
+router.post("/check-username", async (req, res) => {
+    try {
+        const { username } = req.body;
+
+        // Check if the username already exists in the database
+        const existingUser = await UserModel.findOne({ username });
+
+        if (existingUser) {
+            // Username already exists, send a response indicating that
+            res.json({ message: "Username already exists" });
+        } else {
+            // Username is available, send a response indicating that
+            res.json({ message: "Username is available" });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error." });
+    }
+});
+
+
 
 
 
