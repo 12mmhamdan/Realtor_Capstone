@@ -31,7 +31,7 @@ export const Navbar = () => {
                   {!loggedIn ? (
                     <Link to="/Login">Login/Register</Link>
                   ) : (
-                    <Link onClick={logout}> Logout </Link>
+                    <Link onClick={logout} to="/"> Logout </Link>
                   )}
                 </>
               ),

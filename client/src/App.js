@@ -4,7 +4,7 @@ import { Home } from './pages/Home';
 import { Auth } from './pages/Auth'; // Import the Auth component
 import Login from './pages/Login'; // Import the Login component
 import Register from './pages/RegisterForm'; // Import the Register component
-import { Navbar } from './components/Navbar';
+import { Navbar } from './components/Navbar.js';
 import { PropertySearchForm } from './pages/PropertySearchForm';
 import EditUser from './pages/EditUser';
 
