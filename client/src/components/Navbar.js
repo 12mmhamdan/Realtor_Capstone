@@ -38,13 +38,6 @@ export const Navbar = () => {
             key: 'login',
             icon: <UserOutlined />
           },
-          {
-            label: (
-            <Link to="/PropertySearch">Search For Properties</Link>
-            ),
-            key: 'propertysearch',
-            icon: <SearchOutlined /> 
-          },
 
           
             
@@ -54,7 +47,13 @@ export const Navbar = () => {
             label: <Link to="/EditUser">Edit User</Link>,
             key: 'edituser',
             icon: <TeamOutlined />,
-        });
+        },{
+          label: (
+          <Link to="/PropertySearch">Properties Record</Link>
+          ),
+          key: 'propertysearch',
+          icon: <SearchOutlined /> 
+        },);
     }
 
   
