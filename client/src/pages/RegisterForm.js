@@ -10,14 +10,14 @@ const RegisterForm = () => {
 
     const onFinish = async (values) => {
         try {
-            const checkUsername = await axios.post("http://localhost:3001/auth/check-username", {
+            const checkUsername = await axios.post("https://property-search-i2j1.onrender.com/auth/check-username", {
                 username: values.username,
             });
 
             if (checkUsername.data.message === "Username already exists") {
                 message.loading("Username already exists. Please choose a different one.");
             } else {
-                await axios.post("http://localhost:3001/auth/register", {
+                await axios.post("https://property-search-i2j1.onrender.com/auth/register", {
                     username: values.username,
                     password: values.password,
                 });

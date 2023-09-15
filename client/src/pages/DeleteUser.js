@@ -26,7 +26,7 @@ export const DeleteUser = () => {
     if (userID) {
       // Fetch user data using the user's ID from your API
       axios
-        .get(`http://localhost:3001/Auth/users/${userID}`, {
+        .get(`https://property-search-i2j1.onrender.com/Auth/users/${userID}`, {
           headers: {
             Authorization: `${cookies.access_token}`,
           },
@@ -50,7 +50,7 @@ export const DeleteUser = () => {
         }
 
         const result = await axios.delete(
-            `http://localhost:3001/auth/users/${user._id}`,
+            `https://property-search-i2j1.onrender.com/auth/users/${user._id}`,
             {
                 data: {
                     username: values.username,
