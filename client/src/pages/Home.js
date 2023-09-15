@@ -18,7 +18,7 @@ export const Home = () => {
     if (userID) {
       // Fetch user data using the user's ID from your API
       axios
-        .get(`http://localhost:3001/Auth/users/${userID}`, {
+        .get(`https://property-search-i2j1.onrender.com/Auth/users/${userID}`, {
           headers: {
             Authorization: `${cookies.access_token}`,
           },
