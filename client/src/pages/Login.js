@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import { Button, Checkbox, Form, Input, message } from 'antd'; // Import 'message' from 'antd'
+import { Button, Card, Checkbox, Form, Input, message } from 'antd'; // Import 'message' from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
@@ -35,6 +35,8 @@ const Login = () => {
         }
     };
     return (
+        <Card style={{ maxWidth: 600, margin: "0 auto", marginTop: "20px" }}>
+        
         <Form
             form={form}
             name="normal_login"
@@ -91,6 +93,7 @@ const Login = () => {
                 Or <Link to="/register">Register Now!</Link>
             </Form.Item>
         </Form>
+        </Card>
     );
 };
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Table, Input, Button, Space, Alert } from 'antd';
+import { Table, Input, Button, Space, Alert, Card } from 'antd';
 
 
 export function PropertySearchForm() {
@@ -345,7 +345,7 @@ export function PropertySearchForm() {
   };
 
   return (
-    <div>
+    <Card style={{margin: "0 auto", marginTop: "20px" }}>
       <h1>Property Record Search by Area</h1>
       <form onSubmit={handleSubmit}>
         <Space>
@@ -383,6 +383,6 @@ export function PropertySearchForm() {
           rowKey={(record) => record.id} // Assuming 'id' is a unique identifier in your data
         />
       )}
-    </div>
+    </Card>
   );
 }

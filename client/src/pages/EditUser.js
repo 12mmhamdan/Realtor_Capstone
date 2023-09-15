@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import { Button, Form, Input, message } from 'antd';
+import { Button, Card, Form, Input, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
@@ -64,6 +64,7 @@ const EditUser = () => {
     
 
     return (
+        <Card style={{ maxWidth: 600, margin: "0 auto", marginTop: "20px"  }}>
         <Form
             form={form}
             name="edit_user_form"
@@ -76,6 +77,7 @@ const EditUser = () => {
             style={{ maxWidth: 600, margin: "0 auto" }}
         >
             <h2>Edit User Information</h2>
+
             {messageText && <p>{messageText}</p>}
             <Form.Item
                 name="username"
@@ -125,6 +127,7 @@ const EditUser = () => {
                 Or <Link to="/deleteuser">Delete User</Link>
             </Form.Item>
         </Form>
+        </Card>
     );
 };
 

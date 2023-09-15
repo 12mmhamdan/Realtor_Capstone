@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import { Button, Form, Input, Popconfirm, message } from "antd";
+import { Button, Card, Form, Input, Popconfirm, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
@@ -14,7 +14,7 @@ export const DeleteUser = () => {
   const logout = () => {
     setCookies("access_token", "");
     window.localStorage.clear();
-    navigate("/");
+    navigate('/');
   };
 
   const [user, setUser] = useState({});
@@ -25,7 +25,8 @@ export const DeleteUser = () => {
     const userID = window.localStorage.getItem("userID");
     if (userID) {
       // Fetch user data using the user's ID from your API
-      axios.get(`http://localhost:3001/Auth/users/${userID}`, {
+      axios
+        .get(`http://localhost:3001/Auth/users/${userID}`, {
           headers: {
             Authorization: `${cookies.access_token}`,
           },
@@ -39,21 +40,14 @@ export const DeleteUser = () => {
     }
   }, [cookies.access_token]);
 
-  const onFinish = async (values) => {
+  const onDeleteConfirm = async () => {
     try {
-      // Check if the current user matches the user to be deleted
-      if (user.username !== values.username) {
-        // Display an error message using Ant Design's message component
-        message.error("You are not authorized to delete this account.");
-        return;
-      }
-
       const result = await axios.delete(
         `http://localhost:3001/auth/users/${user._id}`,
         {
           data: {
-            username: values.username,
-            password: values.password,
+            username: user.username,
+            password: form.getFieldValue("password"),
           },
           headers: {
             Authorization: `Bearer ${cookies.access_token}`,
@@ -65,8 +59,8 @@ export const DeleteUser = () => {
         setMessageText(result.data.message);
       } else {
         // Successfully deleted the user
-        // Logout the user
-        logout();
+        message.success("Account deleted successfully.");
+        logout() // Logout the user after deletion
       }
     } catch (error) {
       console.error(error);
@@ -90,10 +84,11 @@ export const DeleteUser = () => {
   };
 
   return (
+    <Card style={{ maxWidth: 600, margin: "0 auto", marginTop: "20px"  }}>
+    
     <Form
       form={form}
       name="delete_user_form"
-      onFinish={onFinish}
       labelCol={{ span: 6 }}
       wrapperCol={{ span: 18 }}
       style={{ maxWidth: 600, margin: "0 auto" }}
@@ -110,9 +105,7 @@ export const DeleteUser = () => {
         ]}
       >
         <Input
-          prefix={
-            <UserOutlined className="site-form-item-icon" />
-          }
+          prefix={<UserOutlined className="site-form-item-icon" />}
           placeholder="Username (Required)"
         />
       </Form.Item>
@@ -126,24 +119,22 @@ export const DeleteUser = () => {
         ]}
       >
         <Input
-          prefix={
-            <LockOutlined className="site-form-item-icon" />
-          }
+          prefix={<LockOutlined className="site-form-item-icon" />}
           type="password"
           placeholder="Password (Required)"
         />
       </Form.Item>
       <Form.Item>
         <Popconfirm
-          title="Are you sure you want to delete your account?"
-          onConfirm={logout} // Call the logout function when confirmed
+          title="Are you sure you want to delete your account? &#9785;" 
+          onConfirm={onDeleteConfirm}
           okText="Yes"
           cancelText="No"
         >
           <Button
             type="primary"
             danger
-            htmlType="submit"
+            htmlType="button"
             className="login-form-button"
           >
             Delete Account
@@ -152,5 +143,6 @@ export const DeleteUser = () => {
         Or <Link to="/edituser">Edit User</Link>
       </Form.Item>
     </Form>
+    </Card>
   );
 };

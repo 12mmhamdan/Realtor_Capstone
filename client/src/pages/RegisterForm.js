@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Button, Form, Input } from 'antd';
+import { Button, Card, Form, Input } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from "react-router-dom";
 
@@ -32,6 +32,7 @@ const RegisterForm = () => {
     };
 
     return (
+        <Card style={{ maxWidth: 600, margin: "0 auto", marginTop: "20px"  }}>
         <Form
             form={form}
             name="normal_register"
@@ -75,6 +76,7 @@ const RegisterForm = () => {
                 Or <Link to="/login">login now!</Link>
             </Form.Item>
         </Form>
+        </Card>
     );
 };
 
