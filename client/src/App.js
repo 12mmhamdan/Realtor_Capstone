@@ -7,6 +7,7 @@ import Register from './pages/RegisterForm'; // Import the Register component
 import { Navbar } from './components/Navbar.js';
 import { PropertySearchForm } from './pages/PropertySearchForm';
 import EditUser from './pages/EditUser';
+import { DeleteUser } from './pages/DeleteUser';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path='/register' element={<Register />} />
           <Route path='/propertysearch' element={<PropertySearchForm />}/>
           <Route path='/edituser' element={<EditUser />}/>
+          <Route path='/deleteuser' element={<DeleteUser />}/>
         
         </Routes>
       </Router>

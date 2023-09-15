@@ -4,6 +4,8 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { Button, Form, Input, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
+
 
 const EditUser = () => {
     const [cookies] = useCookies(["access_token"]);
@@ -120,6 +122,7 @@ const EditUser = () => {
                 <Button type="primary" htmlType="submit" className="login-form-button">
                     Update
                 </Button>
+                Or <Link to="/deleteuser">Delete User</Link>
             </Form.Item>
         </Form>
     );

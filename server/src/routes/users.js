@@ -181,6 +181,26 @@ router.post("/check-username", async (req, res) => {
     }
 });
 
+// Define a DELETE route to delete a user by userID
+router.delete("/users/:id", verifyToken, async (req, res) => {
+    try {
+        const userID = req.params.id; // Get the userID from the request parameters
+
+        // Use the UserModel to find and remove the user by their userID
+        const deletedUser = await UserModel.findByIdAndRemove(userID);
+
+        if (!deletedUser) {
+            return res.status(404).json({ message: "User not found." });
+        }
+
+        // Return a success message as a JSON response
+        res.json({ message: "User deleted successfully." });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error." });
+    }
+});
+
 
 
 

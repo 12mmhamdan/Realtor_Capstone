@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate, Route, Routes } from "react-router-dom";
 import Login from "./Login"; // Import your existing Login component
 import RegisterForm from "./RegisterForm"; // Import the new RegisterForm component
-
+import { DeleteUser } from "./DeleteUser";
 
 export const Auth = () => {
     const navigate = useNavigate();
@@ -14,6 +14,7 @@ export const Auth = () => {
     const goToRegister = () => {
         navigate('/register');
     };
+   
 
     return (
         <div className="auth">
@@ -24,6 +25,7 @@ export const Auth = () => {
             <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<RegisterForm navigate={navigate} />} />
+
                
             </Routes>
         </div>

@@ -41,6 +41,16 @@ export function PropertySearchForm() {
       title: 'Last Sale Price',
       dataIndex: "lastSalePrice",
       key: "lastSalePrice"
+    },
+    {
+      title: 'Bedroom(s)',
+      dataIndex: "bedrooms",
+      key: "bedrooms"
+    },
+    {
+      title: 'Bathroom(s)',
+      dataIndex: "bathrooms",
+      key: "bathrooms"
     }
   ];
 
