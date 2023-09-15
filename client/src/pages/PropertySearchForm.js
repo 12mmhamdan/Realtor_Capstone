@@ -58,7 +58,7 @@ export function PropertySearchForm() {
   const fetchProperties = async () => {
     try {
       // Construct the API URL with query parameters
-      const apiUrl = `http://localhost:3001/Property/propertyrecords`;
+      const apiUrl = `https://property-search-i2j1.onrender.com/Property/propertyrecords`;
       const response = await axios.get(apiUrl, { params: searchParams });
 
        // Filter the fake properties based on search criteria
