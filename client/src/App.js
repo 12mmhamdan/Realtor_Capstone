@@ -2,7 +2,6 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Home } from './pages/Home';
-import { Auth } from './pages/Auth';
 import Login from './pages/Login';
 import Register from './pages/RegisterForm';
 import { Navbar } from './components/Navbar.js';
@@ -32,7 +31,6 @@ function App() {
           <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/auth" element={<Auth />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/propertysearch" element={<PropertySearchForm />} />

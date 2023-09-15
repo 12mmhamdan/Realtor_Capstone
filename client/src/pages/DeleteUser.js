@@ -40,48 +40,55 @@ export const DeleteUser = () => {
     }
   }, [cookies.access_token]);
 
-  const onDeleteConfirm = async () => {
+  const deleteAccount = async (values) => {
     try {
-      const result = await axios.delete(
-        `http://localhost:3001/auth/users/${user._id}`,
-        {
-          data: {
-            username: user.username,
-            password: form.getFieldValue("password"),
-          },
-          headers: {
-            Authorization: `Bearer ${cookies.access_token}`,
-          },
+        // Check if the current user matches the user to be deleted
+        if (user.username !== values.username) {
+            // Display an error message using Ant Design's message component
+            message.error("You are not authorized to delete this account.");
+            return;
         }
-      );
 
-      if (result.data.message) {
-        setMessageText(result.data.message);
-      } else {
-        // Successfully deleted the user
-        message.success("Account deleted successfully.");
-        logout() // Logout the user after deletion
-      }
+        const result = await axios.delete(
+            `http://localhost:3001/auth/users/${user._id}`,
+            {
+                data: {
+                    username: values.username,
+                    password: values.password,
+                },
+                headers: {
+                    Authorization: `Bearer ${cookies.access_token}`,
+                },
+            }
+        );
+
+        if (result.data.message) {
+            setMessageText(result.data.message);
+        } else {
+            // Successfully deleted the user
+            // Logout the user and navigate to the home page
+            logout();
+        }
     } catch (error) {
-      console.error(error);
+        console.error(error);
 
-      if (
-        error.response &&
-        error.response.status === 401 &&
-        error.response.data.message ===
-          "Unauthorized. You can only delete your own account."
-      ) {
-        // Display an error message using Ant Design's message component
-        message.error("You are not authorized to delete this account.");
-      } else if (
-        error.response &&
-        error.response.status === 401 &&
-        error.response.data.message === "Username or Password is incorrect."
-      ) {
-        setMessageText("Username or Password is incorrect.");
-      }
+        if (
+            error.response &&
+            error.response.status === 401 &&
+            error.response.data.message ===
+            "Unauthorized. You can only delete your own account."
+        ) {
+            // Display an error message using Ant Design's message component
+            message.error("You are not authorized to delete this account.");
+        } else if (
+            error.response &&
+            error.response.status === 401 &&
+            error.response.data.message === "Username or Password is incorrect."
+        ) {
+            setMessageText("Username or Password is incorrect.");
+        }
     }
-  };
+};
 
   return (
     <Card style={{ maxWidth: 600, margin: "0 auto", marginTop: "20px"  }}>
@@ -127,7 +134,7 @@ export const DeleteUser = () => {
       <Form.Item>
         <Popconfirm
           title="Are you sure you want to delete your account? &#9785;" 
-          onConfirm={onDeleteConfirm}
+          onConfirm={() => deleteAccount(form.getFieldsValue())}
           okText="Yes"
           cancelText="No"
         >

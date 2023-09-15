@@ -1,7 +1,5 @@
-// Import the necessary modules
 const mongoose = require('mongoose');
 
-// Define the Property schema
 const propertySchema = new mongoose.Schema({
   address: {
     type: String,

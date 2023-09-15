@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useCookies, } from "react-cookie";
 import { useNavigate, Link, } from "react-router-dom";
-import { Card, Button, Typography } from "antd";
+import { Button } from "antd";
 
-const { Title, Text } = Typography;
 
 export const Home = () => {
     const [cookies, setCookies, removeCookies] = useCookies(["access_token"]);
@@ -42,26 +41,25 @@ export const Home = () => {
     window.localStorage.clear();
     navigate("/login");
   };
-
+  const handleButtonClick = () => { navigate('/login'); };
   return (
-    <div style={{ maxWidth: 600, margin: "0 auto" }}>
-        <h1 center>Welcome To Real Estate Data {user.username}!</h1>
-      {loading ? (
-        <p>Loading user data...</p>
-      ) : (
-        <Card
-          title="User Information"
-          extra={<Button onClick={handleLogout}>Logout</Button>}
-        >
-          
-          <Link to="/edituser">
-            <Button type="primary">Edit Profile</Button>
-          </Link>{" "}
-          <Link to="/deleteuser">
-            <Button type="primary" danger>Delete Account</Button>
-          </Link>
-        </Card>
-      )}
+    
+    <div style= {{margin: "0 auto"}}>
+        <div>
+            <div className={`hero-section `}>
+                <div className="hero-content">
+                <h1>Welcome To Real Estate Data {user.username}!</h1>
+                <p>Discover and Find More Info On Real Estate Properties</p>
+                {cookies.access_token ? null : 
+                    <Button type="primary" size="large" onClick={handleButtonClick}>
+                    Login to Start Searching Property Data
+                    </Button>
+                }
+                </div>
+            </div>
+        </div>
+        
+
     </div>
   );
 };
